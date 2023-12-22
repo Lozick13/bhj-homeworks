@@ -3,6 +3,7 @@ window.onload = () => {
 	navElements.forEach(element => {
 		console.log(element)
 		element.addEventListener('click', event => {
+			
 			console.log(0)
 			if (element.nextSibling()) {
 				event.preventDefault()
