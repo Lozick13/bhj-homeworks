@@ -68,6 +68,7 @@ class Autocomplete {
   }
 
   getMatches( text ) {
+	
     /*
       TODO: этот метод нужно дописать
       text - фраза, которую вводят в поле поиска
