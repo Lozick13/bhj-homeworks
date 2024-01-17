@@ -8,6 +8,25 @@ function loadWelcome(id) {
 	userIdSpan.textContent = id
 }
 
+function checkUser(xhr) {
+	if (xhr.readyState === xhr.DONE) {
+		if (xhr.status === 201) {
+			const xhrText = JSON.parse(xhr.response)
+
+			if (xhrText.success === true) {
+				const userId = xhrText.user_id
+
+				localStorage.setItem('user_id', userId)
+				loadWelcome(userId)
+			} else {
+				alert('Неверный логин/пароль')
+			}
+		} else {
+			alert('Произошла ошибка: ' + xhr.status)
+		}
+	}
+}
+
 const localStorageUserId = localStorage.getItem('user_id')
 if (localStorageUserId) {
 	loadWelcome(localStorageUserId)
@@ -20,22 +39,9 @@ if (localStorageUserId) {
 		const xhr = new XMLHttpRequest()
 
 		xhr.open('POST', 'https://students.netoservices.ru/nestjs-backend/auth')
-
 		xhr.addEventListener('load', () => {
-			if (xhr.readyState === xhr.DONE) {
-				const xhrText = JSON.parse(xhr.response)
-
-				if (xhrText.success === true) {
-					const userId = xhrText.user_id
-
-					localStorage.setItem('user_id', userId)
-					loadWelcome(userId)
-				} else {
-					alert('Неверный логин/пароль')
-				}
-			}
+			checkUser(xhr)
 		})
-
 		xhr.send(formData)
 	})
 }
